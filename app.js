@@ -2,8 +2,12 @@ const express = require("express");
 const config = require("config");
 const app = express();
 const PORT = config.get("port");
+const bodyParsel = require("body-parser");
 
 app.use(express.json());
+
+// app.use(bodyParsel.json());
+// app.use(bodyParsel.urlencoded({ extended: true }));
 require("./Routes/customer.routes.js")(app);
 
 const appStart = () => {

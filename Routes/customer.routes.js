@@ -1,6 +1,10 @@
 module.exports = (app) => {
   const user = require("../Controllers/customer.controller.js");
+
+  // app.post("/api/users", user.createUser)
   app.get("/api/users", user.findAll);
+  app.get("/api/users/:userId", user.findById);
+  app.delete("/api/users/:userId", user.deleteById);
 
   app.use((req, res, next) => {
     if (req.url == "/") {
@@ -12,7 +16,7 @@ module.exports = (app) => {
 
   app.use((req, res, next) => {
     if (req.url == "/api") {
-      res.json({ message: "Welcome to the application." });
+      res.json({ message: "Welcome to the API." });
     } else {
       next();
     }
