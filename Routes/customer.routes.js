@@ -1,7 +1,8 @@
 module.exports = (app) => {
   const user = require("../Controllers/customer.controller.js");
 
-  // app.post("/api/users", user.createUser)
+  app.post("/api/users/", user.create);
+
   app.get("/api/users", user.findAll);
   app.get("/api/users/:userId", user.findById);
   app.delete("/api/users/:userId", user.deleteById);
@@ -22,7 +23,7 @@ module.exports = (app) => {
     }
   });
 
-  app.use((req, res) => {
-    res.send(404, "Page not Found");
-  });
+  // app.use((req, res) => {
+  //   res.send(404, "Page not Found");
+  // });
 };

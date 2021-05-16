@@ -1,7 +1,7 @@
 const sql = require("../config_db/db.js");
 
-const User = function(user) {
-  this.fistName = user.fistName;
+const User = function (user) {
+  this.firstName = user.firstName;
   this.lastName = user.lastName;
   this.email = user.email;
 };
@@ -9,28 +9,31 @@ const User = function(user) {
 User.create = (newUser, result) => {
   sql.query(`INSERT INTO myTable SET ?`, newUser, (err, res) => {
     if (err) {
-      console.log(`ОШИБКА СОЗДАНИЯ + ${err}`);
+      console.log(`ОШИБКА СОЗДАНИЯ  `);
       result(err, null);
+    } else {
+      console.log("Пользователь создан: ");
+      result(null, res);
     }
-    console.log("Пользователь создан: ", { UserId: res.InsertId, ...newUser });
-    result(null, { UserId: res.InsertId, ...newUser });
   });
 };
 
 User.getAll = (result) => {
-  sql.query("SELECT * FROM myTable", (err, res) => {
+  const allUsers = "SELECT * FROM myTable";
+  sql.query(allUsers, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      // console.log("error: ", err);
       result(null, err);
       return;
     }
-    console.log("Users on the POSTMAN or Chrome: ");
+    console.log(`Users on the POSTMAN or Chrome: `);
     result(null, res);
   });
 };
 
 User.getOne = (userID, result) => {
-  sql.query(`SELECT * FROM myTable WHERE userID = ${userID}`, (err, res) => {
+  const getById = `SELECT * FROM myTable WHERE userID = ${userID}`;
+  sql.query(getById, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -38,7 +41,7 @@ User.getOne = (userID, result) => {
     }
 
     if (res.length) {
-      // console.log("found user: ", res[0]);
+      // console.log(`User on the POSTMAN or Chrome: ID=${userID} `);
       result(null, res[0]);
       return;
     }
@@ -47,7 +50,8 @@ User.getOne = (userID, result) => {
 };
 
 User.deleteOne = (userID, result) => {
-  sql.query(`DELETE  FROM myTable WHERE userID = ${userID}`, (err, res) => {
+  const deleteById = `DELETE  FROM myTable WHERE userID = ${userID}`;
+  sql.query(deleteById, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

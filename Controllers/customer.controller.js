@@ -1,7 +1,8 @@
 const User = require("../models/customers.model.js");
 
 /*Create User*/
-exports.createUser = (req, res) => {
+exports.create = (req, res) => {
+  console.log(req);
   if (!req.body) {
     res.status(400).send({
       message: "Content are empty",
@@ -12,13 +13,13 @@ exports.createUser = (req, res) => {
     firstName: req.body.firstName,
     email: req.body.email,
   });
-  User.createUser(user, (err, data) => {
-    if (err) {
+
+  User.create(user, (err, data) => {
+    if (err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while creating the Customer.",
       });
-    }
     else res.send(data);
   });
 };
@@ -37,6 +38,7 @@ exports.findAll = (req, res) => {
 
 exports.findById = (req, res) => {
   User.getOne(req.params.userId, (err, data) => {
+    // console.log(req.params.userId)
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -67,4 +69,3 @@ exports.deleteById = (req, res) => {
     } else res.send(data);
   });
 };
-

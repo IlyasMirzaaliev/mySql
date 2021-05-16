@@ -3,11 +3,13 @@ const config = require("config");
 const app = express();
 const PORT = config.get("port");
 const bodyParsel = require("body-parser");
+const morgan = require("morgan");
 
 app.use(express.json());
+app.use(morgan("dev"));
 
-// app.use(bodyParsel.json());
-// app.use(bodyParsel.urlencoded({ extended: true }));
+app.use(bodyParsel.json());
+app.use(bodyParsel.urlencoded({ extended: true }));
 require("./Routes/customer.routes.js")(app);
 
 const appStart = () => {
